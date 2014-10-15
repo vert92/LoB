@@ -1,0 +1,29 @@
+﻿@model LeagueOfBalkan.Models.LoginViewModel
+@{
+    ViewBag.Title = "LogIn";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-2 col-lg-offset-5 mainlogindiv">
+        <h2>Login</h2>
+        <div class="loginform">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.TextBoxFor(item => item.Email, new { @class="form-control", placeholder="Username" })
+                @Html.ValidationMessageFor(item => item.Email, "", new { @class = "text-danger" })
+                <br />
+                @Html.PasswordFor(item => item.Password, new { @class = "form-control", placeholder = "Password" })
+                @Html.ValidationMessageFor(item => item.Password, "", new { @class = "text-danger" })
+                <br />
+                @Html.CheckBoxFor(m => m.RememberMe)
+                @Html.LabelFor(m => m.RememberMe)
+                <br />
+                <button type="submit" class="btn btn-primary">Log In</button>
+            }
+        </div>
+    </div>
+</div>
