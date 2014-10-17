@@ -7,10 +7,10 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LeagueOfBalkan.Models;
+using System.IO;
 
 namespace LeagueOfBalkan.Controllers
 {
-    [AllowAnonymous]
     public class NewsController : Controller
     {
         private NewsDBContext db = new NewsDBContext();
@@ -22,6 +22,7 @@ namespace LeagueOfBalkan.Controllers
         }
 
         // GET: News/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -37,6 +38,7 @@ namespace LeagueOfBalkan.Controllers
         }
 
         // GET: News/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -47,10 +49,26 @@ namespace LeagueOfBalkan.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Text,ImagePath")] News news)
+        [Authorize]
+        public ActionResult Create([Bind(Include = "ID,Title,Text,Image,ImagePath")] News news)
         {
             if (ModelState.IsValid)
             {
+                var newsItem = new News
+                {
+                    Title = news.Title,
+                    Text = news.Text
+                };
+
+                if (news.Image != null && news.Image.ContentLength > 0)
+                {
+                    var uploadDir = "~/uploads";
+                    var imagePath = Path.Combine(Server.MapPath(uploadDir), news.Image.FileName);
+                    var imageUrl = Path.Combine(uploadDir, news.Image.FileName);
+                    news.Image.SaveAs(imagePath);
+                    news.ImagePath = imageUrl;
+                }
+
                 db.News.Add(news);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -60,6 +78,7 @@ namespace LeagueOfBalkan.Controllers
         }
 
         // GET: News/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -79,6 +98,7 @@ namespace LeagueOfBalkan.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "ID,Title,Text,ImagePath,Date")] News news)
         {
             if (ModelState.IsValid)
@@ -91,6 +111,7 @@ namespace LeagueOfBalkan.Controllers
         }
 
         // GET: News/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -108,6 +129,7 @@ namespace LeagueOfBalkan.Controllers
         // POST: News/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             News news = db.News.Find(id);
