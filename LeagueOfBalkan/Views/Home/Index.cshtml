@@ -50,7 +50,7 @@
         <div class="col-lg-4 tophomemininewscontainer lowpadding">
             <div class="homemininews tophomemininews">
                 <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
-                <p>@Html.DisplayFor(modelItem => item.Text)</p>
+                @Html.Raw(item.Text.Length > 100 ? item.Text.Substring(0, 100) : item.Text)
             </div>
         </div>
     }
