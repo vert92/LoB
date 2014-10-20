@@ -35,7 +35,7 @@
             @Html.DisplayFor(modelItem => item.Text)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ImagePath)
+            <img src="@Url.Content(item.ImagePath)" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Date)

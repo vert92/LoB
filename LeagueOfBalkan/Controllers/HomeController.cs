@@ -14,7 +14,11 @@ namespace LeagueOfBalkan.Controllers
 
         public ActionResult Index()
         {
-            return View(db.News.ToList());
+            var query = db.News.OrderByDescending(n => n.Date)
+                               .Take(2)
+                               .ToList();
+
+            return View(query);
         }
     }
 }
