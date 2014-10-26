@@ -13,7 +13,7 @@ namespace LeagueOfBalkan.Controllers
 {
     public class NewsController : Controller
     {
-        private NewsDBContext db = new NewsDBContext();
+        private LoBDb db = new LoBDb();
 
         // GET: News
         public ActionResult Index()

@@ -32,11 +32,4 @@ namespace LeagueOfBalkan.Models
         public DateTime Date { get; set; }
     }
 
-    public class NewsDBContext : DbContext
-    {
-        public NewsDBContext() : base("DefaultConnection") { }
-
-        public DbSet<News> News { get; set; }
-    }
-
 }

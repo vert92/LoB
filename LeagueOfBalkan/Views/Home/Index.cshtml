@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LeagueOfBalkan.Models.News>
+﻿@model LeagueOfBalkan.ViewModels.HomePageViewModel
 
 @{
     ViewBag.Title = "League of Balkan";
@@ -31,26 +31,12 @@
 
     </div>
 
-    @*<div class="col-lg-4 "> OVDJE IDE VIJEST .....
-            <div class="homemininews tophomemininews">
-                <h2>Naslov vijesti</h2>
-                <p>Text vijesti maximalno 50 slova lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum..</p>
-            </div>
-        </div>
-
-        <div class="col-lg-4">
-            <div class="homemininews tophomemininews" id="homemininewsspec">
-                <h2>Naslov vijesti</h2>
-                <p>Text vijesti maximalno 50 slova lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum..</p>
-            </div>
-        </div>*@
-
-    @foreach (var item in Model)
+    @foreach (var item in Model.MiniNews)
     {
         <div class="col-lg-4 tophomemininewscontainer lowpadding">
             <div class="homemininews tophomemininews">
                 <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
-                @Html.Raw(item.Text.Length > 100 ? item.Text.Substring(0, 100) : item.Text)
+                @Html.Raw(item.Text.Length > 300 ? item.Text.Substring(0, 300) : item.Text)
             </div>
         </div>
     }
