@@ -28,6 +28,7 @@ namespace LeagueOfBalkan.Models
         [NotMapped]
         public HttpPostedFileBase Image { get; set; }
         public string ImagePath { get; set; }
+        public string ThumbPath { get; set; }
         
         public DateTime Date { get; set; }
     }

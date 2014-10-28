@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using LeagueOfBalkan.Models;
 using System.IO;
+using System.Web.Helpers;
 
 namespace LeagueOfBalkan.Controllers
 {
@@ -50,7 +51,7 @@ namespace LeagueOfBalkan.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include = "ID,Title,Text,Image,ImagePath")] News news)
+        public ActionResult Create([Bind(Include = "ID,Title,Text,Image,ImagePath")] News news, string imageEdit)
         {
             if (ModelState.IsValid)
             {
@@ -62,11 +63,59 @@ namespace LeagueOfBalkan.Controllers
 
                 if (news.Image != null && news.Image.ContentLength > 0)
                 {
+                    WebImage img = new WebImage(news.Image.InputStream);
+                    if (imageEdit == "Resize")
+                    {
+                        img.Resize(764, 388, false);
+                    }
+                    else if (imageEdit == "Crop")
+                    {
+                        if (img.Width > 800 && img.Height > 400)
+                        {
+                            img.Crop((img.Height - 388) / 2, (img.Width - 764) / 2, (img.Height - 388) / 2, (img.Width - 764) / 2);
+                        }
+                        else
+                        {
+                            img.Resize(764, 388, false);
+                        }
+                    }
+
+                    var titleTrimmed = news.Title;
+                    if (titleTrimmed.Length > 10)
+                    {
+                        titleTrimmed = titleTrimmed.Substring(0, 10).Trim();
+                    }
+
+                    var image = titleTrimmed + "_" + DateTime.Now.Date.ToString("ddMyy") + "_" + news.Image.FileName;
                     var uploadDir = "~/uploads";
-                    var imagePath = Path.Combine(Server.MapPath(uploadDir), news.Image.FileName);
-                    var imageUrl = Path.Combine(uploadDir, news.Image.FileName);
-                    news.Image.SaveAs(imagePath);
+                    var imagePath = Path.Combine(Server.MapPath(uploadDir), image);
+                    var imageUrl = Path.Combine(uploadDir, image);
+                    img.Save(imagePath);
                     news.ImagePath = imageUrl;
+
+                    WebImage thumb = new WebImage(imageUrl);
+                    if(imageEdit == "Resize")
+                    {
+                        thumb.Resize(350, 185, false);
+                    }
+                    else if (imageEdit == "Crop")
+                    {
+                        if (thumb.Width > 800 && img.Height > 400)
+                        {
+                            thumb = img;
+                            thumb.Resize(350, 185, false);
+                        }
+                        else
+                        {
+                            thumb.Resize(350, 185, false);
+                        }
+                    }
+
+                    var thumbnail = "thumb" + "_" + titleTrimmed + "_" + DateTime.Now.Date.ToString("ddMyy") + "_" + news.Image.FileName;
+                    var thumbPath = Path.Combine(Server.MapPath(uploadDir), thumbnail);
+                    var thumbUrl = Path.Combine(uploadDir, thumbnail);
+                    thumb.Save(thumbPath);
+                    news.ThumbPath = thumbUrl;
                 }
 
                 db.News.Add(news);
