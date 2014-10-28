@@ -1,50 +1,36 @@
 ﻿@model LeagueOfBalkan.Models.News
-
+@using System.Web
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>News</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Text)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Text)
-        </dd>
-
-        <dt>
-            <img src="@Url.Content(Model.ImagePath)" />
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-
-    </dl>
+<div class="row">
+    <div class="newsheader col-sm-12 col-md-12"><h2>News Section</h2></div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="row newsdetailrow">
+    <div class="col-sm-9 col-md-9">
+        <div class="newsdetail">
+            <h3>@Model.Title</h3>
+            <hr />
+            <img src="@Url.Content(Model.ImagePath)" />
+            <div>
+                @Html.Raw(HttpUtility.HtmlDecode(@Model.Text))
+            </div>
+            @*<p class="date">@Model.Date</p>*@
+            <p class="date"><abbr class="timeago" title="@Model.Date"></abbr></p>
+        </div>
+    </div>
+    <div class="col-sm-3 col-md-3"></div>
+</div>
+
+@Html.Partial("_StreamersPartial")
+
+
+@section scripts{
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery("abbr.timeago").timeago();
+        });
+    </script>
+}

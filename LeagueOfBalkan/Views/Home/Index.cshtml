@@ -1,4 +1,5 @@
 ﻿@model LeagueOfBalkan.ViewModels.HomePageViewModel
+@using LeagueOfBalkan.Helpers
 
 @{
     ViewBag.Title = "League of Balkan";
@@ -21,10 +22,12 @@
                 {
                     var itemClass = i++ == 0 ? "item active" : "item";
                     <div class="@itemClass">
-                        <img src="@Url.Content(item.ImagePath)" class="carouselimage" />
-                        <div class="carousel-caption">
-                            @item.Title - @Html.Raw(item.Text.Length > 50 ? item.Text.Substring(0, 50) : item.Text)
-                        </div>
+                        <a href="@Url.Action("Details", "News", new { id = item.ID, newsName = item.Title.ToSeoUrl() })">
+                            <img src="@Url.Content(item.ImagePath)" class="carouselimage" />
+                            <div class="carousel-caption">
+                                @item.Title @*@Html.Raw(item.Text.Length > 50 ? item.Text.Substring(0, 50) : item.Text)*@
+                            </div>
+                        </a>
                     </div>
                 }
             }
@@ -34,11 +37,13 @@
 
     @foreach (var item in Model.MiniNews)
     {
-        <div class="col-lg-4 tophomemininewscontainer lowpadding">
-            <div class="homemininews tophomemininews">
-                <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
-                @Html.Raw(item.Text.Length > 300 ? item.Text.Substring(0, 300) : item.Text)
-            </div>
+        <div class="col-lg-4 col-md-12 tophomemininewscontainer lowpadding">
+            <a href="@Url.Action("Details", "News", new { id = item.ID, newsName = item.Title.ToSeoUrl() })">
+                <div class="homemininews tophomemininews">
+                    <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
+                    @Html.Raw(item.Text.Length > 300 ? item.Text.Substring(0, 300) : item.Text)
+                </div>
+            </a>
         </div>
     }
 
@@ -48,58 +53,18 @@
 
     @foreach (var item in Model.MainNews)
     {
-        <div class="col-lg-4 lowpadding">
-            <div class="homemininews">
-                <img src="@Url.Content(item.ThumbPath)" />
-                <h2>@item.Title</h2>
-                <p>@Html.Raw(item.Text.Length > 300 ? item.Text.Substring(0, 300) : item.Text)</p>
-            </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 lowpadding">
+            <a href="@Url.Action("Details", "News", new { id = item.ID, newsName = item.Title.ToSeoUrl() })">
+                <div class="homemininews">
+                    <img src="@Url.Content(item.ThumbPath)" />
+                    <h2>@item.Title</h2>
+                    <p>@Html.Raw(item.Text.Length > 300 ? item.Text.Substring(0, 300) : item.Text)</p>
+                </div>
+            </a>
         </div>
     }
 
 </div>
 
-<div class="row streamerhomerow">
-
-    <div class="col-lg-3 streamlink lowpadding">
-        <a href="#">
-            <div class="streamerhomeicon">
-                <img src="~/Content/Images/wickd_small.jpg" />
-                <p>Streamer name</p>
-                <p>Viewer count</p>
-            </div>
-        </a>
-    </div>
-
-    <div class="col-lg-3 streamlink lowpadding">
-        <a href="#">
-            <div class="streamerhomeicon">
-                <img src="~/Content/Images/wickd_small.jpg" />
-                <p>Streamer name</p>
-                <p>Viewer count</p>
-            </div>
-        </a>
-    </div>
-
-    <div class="col-lg-3 streamlink lowpadding">
-        <a href="#">
-            <div class="streamerhomeicon">
-                <img src="~/Content/Images/wickd_small.jpg" />
-                <p>Streamer name</p>
-                <p>Viewer count</p>
-            </div>
-        </a>
-    </div>
-
-    <div class="col-lg-3 streamlink lowpadding">
-        <a href="#">
-            <div class="streamerhomeicon">
-                <img src="~/Content/Images/wickd_small.jpg" />
-                <p>Streamer name</p>
-                <p>Viewer count</p>
-            </div>
-        </a>
-    </div>
-
-</div>
+@Html.Partial("_StreamersPartial")
 

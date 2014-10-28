@@ -9,7 +9,8 @@ namespace LeagueOfBalkan
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery.timeago.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -26,7 +27,9 @@ namespace LeagueOfBalkan
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/HomePage.css"));
+                      "~/Content/font-awesome-4.2.0/css/font-awesome.min.css",
+                      "~/Content/HomePage.css",
+                      "~/Content/NewsPage.css"));
 
             bundles.Add(new StyleBundle("~/Content/login").Include(
                 "~/Content/bootstrap.css",

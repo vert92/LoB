@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using LeagueOfBalkan.Models;
 using System.IO;
 using System.Web.Helpers;
+using LeagueOfBalkan.Helpers;
 
 namespace LeagueOfBalkan.Controllers
 {
@@ -24,7 +25,7 @@ namespace LeagueOfBalkan.Controllers
 
         // GET: News/Details/5
         [Authorize]
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, string newsName)
         {
             if (id == null)
             {
@@ -35,6 +36,15 @@ namespace LeagueOfBalkan.Controllers
             {
                 return HttpNotFound();
             }
+
+            string expectedName = news.Title.ToSeoUrl();
+            string actualName = (newsName ?? "").ToLower();
+
+            if (expectedName != actualName)
+            {
+                return RedirectToActionPermanent("Details", new { id = news.ID, newsName = expectedName });
+            }
+
             return View(news);
         }
 
@@ -63,59 +73,7 @@ namespace LeagueOfBalkan.Controllers
 
                 if (news.Image != null && news.Image.ContentLength > 0)
                 {
-                    WebImage img = new WebImage(news.Image.InputStream);
-                    if (imageEdit == "Resize")
-                    {
-                        img.Resize(764, 388, false);
-                    }
-                    else if (imageEdit == "Crop")
-                    {
-                        if (img.Width > 800 && img.Height > 400)
-                        {
-                            img.Crop((img.Height - 388) / 2, (img.Width - 764) / 2, (img.Height - 388) / 2, (img.Width - 764) / 2);
-                        }
-                        else
-                        {
-                            img.Resize(764, 388, false);
-                        }
-                    }
-
-                    var titleTrimmed = news.Title;
-                    if (titleTrimmed.Length > 10)
-                    {
-                        titleTrimmed = titleTrimmed.Substring(0, 10).Trim();
-                    }
-
-                    var image = titleTrimmed + "_" + DateTime.Now.Date.ToString("ddMyy") + "_" + news.Image.FileName;
-                    var uploadDir = "~/uploads";
-                    var imagePath = Path.Combine(Server.MapPath(uploadDir), image);
-                    var imageUrl = Path.Combine(uploadDir, image);
-                    img.Save(imagePath);
-                    news.ImagePath = imageUrl;
-
-                    WebImage thumb = new WebImage(imageUrl);
-                    if(imageEdit == "Resize")
-                    {
-                        thumb.Resize(350, 185, false);
-                    }
-                    else if (imageEdit == "Crop")
-                    {
-                        if (thumb.Width > 800 && img.Height > 400)
-                        {
-                            thumb = img;
-                            thumb.Resize(350, 185, false);
-                        }
-                        else
-                        {
-                            thumb.Resize(350, 185, false);
-                        }
-                    }
-
-                    var thumbnail = "thumb" + "_" + titleTrimmed + "_" + DateTime.Now.Date.ToString("ddMyy") + "_" + news.Image.FileName;
-                    var thumbPath = Path.Combine(Server.MapPath(uploadDir), thumbnail);
-                    var thumbUrl = Path.Combine(uploadDir, thumbnail);
-                    thumb.Save(thumbPath);
-                    news.ThumbPath = thumbUrl;
+                    CreateImage(news, imageEdit);
                 }
 
                 db.News.Add(news);
@@ -125,6 +83,7 @@ namespace LeagueOfBalkan.Controllers
 
             return View(news);
         }
+
 
         // GET: News/Edit/5
         [Authorize]
@@ -148,11 +107,28 @@ namespace LeagueOfBalkan.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "ID,Title,Text,ImagePath,Date")] News news)
+        public ActionResult Edit([Bind(Include = "ID,Title,Text,Image,ImagePath,Date")] News news, string imageEdit)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(news).State = EntityState.Modified;
+                //db.Entry(news).State = EntityState.Modified;
+                //db.SaveChanges();
+                //return RedirectToAction("Index");
+
+                News newsEdit = new News { ID = news.ID };
+                db.News.Attach(newsEdit);
+
+                newsEdit.Title = news.Title;
+                newsEdit.Text = news.Text;
+                if (news.Image != null && news.Image.ContentLength > 0)
+                {
+                    CreateImage(news, imageEdit);
+                }
+                newsEdit.Image = news.Image;
+                newsEdit.ImagePath = news.ImagePath;
+                newsEdit.ThumbPath = news.ThumbPath;
+                newsEdit.Date = news.Date;
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -194,6 +170,65 @@ namespace LeagueOfBalkan.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+     
+        [NonAction]
+        public void CreateImage(News news, string imageEdit)
+        {
+            WebImage img = new WebImage(news.Image.InputStream);
+            if (imageEdit == "Resize")
+            {
+                img.Resize(764, 388, false);
+            }
+            else if (imageEdit == "Crop")
+            {
+                if (img.Width > 800 && img.Height > 400)
+                {
+                    img.Crop((img.Height - 388) / 2, (img.Width - 764) / 2, (img.Height - 388) / 2, (img.Width - 764) / 2);
+                }
+                else
+                {
+                    img.Resize(764, 388, false);
+                }
+            }
+
+            var titleTrimmed = news.Title;
+            if (titleTrimmed.Length > 10)
+            {
+                titleTrimmed = titleTrimmed.Substring(0, 10).Trim();
+            }
+
+            var image = titleTrimmed + "_" + DateTime.Now.Date.ToString("ddMyy") + "_" + news.Image.FileName;
+            var uploadDir = "~/uploads";
+            var imagePath = Path.Combine(Server.MapPath(uploadDir), image);
+            var imageUrl = Path.Combine(uploadDir, image);
+            img.Save(imagePath);
+            news.ImagePath = imageUrl;
+
+            WebImage thumb = new WebImage(imageUrl);
+            if (imageEdit == "Resize")
+            {
+                thumb.Resize(350, 185, false);
+            }
+            else if (imageEdit == "Crop")
+            {
+                if (thumb.Width > 800 && img.Height > 400)
+                {
+                    thumb = img;
+                    thumb.Resize(350, 185, false);
+                }
+                else
+                {
+                    thumb.Resize(350, 185, false);
+                }
+            }
+
+            var thumbnail = "thumb" + "_" + titleTrimmed + "_" + DateTime.Now.Date.ToString("ddMyy") + "_" + news.Image.FileName;
+            var thumbPath = Path.Combine(Server.MapPath(uploadDir), thumbnail);
+            var thumbUrl = Path.Combine(uploadDir, thumbnail);
+            thumb.Save(thumbPath);
+            news.ThumbPath = thumbUrl;
         }
     }
 }
