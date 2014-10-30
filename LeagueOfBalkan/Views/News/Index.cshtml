@@ -1,51 +1,40 @@
 ﻿@model IEnumerable<LeagueOfBalkan.Models.News>
+@using System.Text.RegularExpressions
+@using LeagueOfBalkan.Helpers
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index view</h2>
+<div class="row">
+    <div class="newsheader col-sm-12 col-md-12"><h2>News Archive</h2></div>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Text)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th></th>
-    </tr>
+<div class="row newsdetailrow">
+    <div class="col-sm-12 col-md-9 col-lg-9 lowpadding">
+        <div class="newsdetail archivecontainer">
+            @foreach (var item in Model)
+            {
+                <div class="newsarchive">
+                    <div class="archivethumb"><a href="@Url.Action("Details", "News", new { id = item.ID, newsName = item.Title.ToSeoUrl() })"><img src="@Url.Content(item.ThumbPath)" /></a></div>
+                    <div class="archivetext">
+                        <a href="@Url.Action("Details", "News", new { id = item.ID, newsName = item.Title.ToSeoUrl() })">
+                            <p class="title">@Html.Raw(item.Title.Length > 37 ? item.Title.Substring(0, 37) + "..." : item.Title)</p>
+                        </a>
+                        <p>@WebUtility.HtmlDecode(Regex.Replace((item.Text.Length > 500 ? item.Text.Substring(0, 500) + "..." : item.Text), "<[^>]*(>|$)", string.Empty))</p>
+                    </div>
+                    <p class="date"><i class="fa fa-clock-o"></i><abbr class="timeago" title="@item.Date"></abbr></p>
+                </div>
+                <hr />
+            }
+        </div>
+    </div>
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Text)
-        </td>
-        <td>
-            <img src="@Url.Content(item.ImagePath)" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
+@section scripts{
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery("abbr.timeago").timeago();
+        });
+    </script>
 }
-
-</table>

@@ -11,5 +11,6 @@ namespace LeagueOfBalkan.ViewModels
         public IEnumerable<News> CarouselNews { get; set; }
         public IEnumerable<News> MainNews { get; set; }
         public IEnumerable<News> MiniNews { get; set; }
+        public TwitchData StreamData { get; set; }
     }
 }

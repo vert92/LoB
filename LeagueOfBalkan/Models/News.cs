@@ -17,6 +17,11 @@ namespace LeagueOfBalkan.Models
             this.Date = DateTime.Now;
         }
 
+        public News(DateTime date)
+        {
+            this.Date = date;
+        }
+
         public int ID { get; set; }
         [Required]
         public string Title { get; set; }

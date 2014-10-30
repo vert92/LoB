@@ -10,6 +10,7 @@ using LeagueOfBalkan.Models;
 using System.IO;
 using System.Web.Helpers;
 using LeagueOfBalkan.Helpers;
+using LeagueOfBalkan.ViewModels;
 
 namespace LeagueOfBalkan.Controllers
 {
@@ -20,6 +21,10 @@ namespace LeagueOfBalkan.Controllers
         // GET: News
         public ActionResult Index()
         {
+
+            TwitchData twitch = new TwitchData();
+
+
             return View(db.News.ToList());
         }
 
@@ -31,21 +36,30 @@ namespace LeagueOfBalkan.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            News news = db.News.Find(id);
-            if (news == null)
+            //News news = db.News.Find(id);
+
+            var model = new NewsDetailsViewModel
+            {
+                NewsDetail = db.News.Find(id),
+                RecentNews = db.News.OrderByDescending(n => n.Date)
+                            .Take(10)
+                            .ToList()
+            };
+
+            if (model == null)
             {
                 return HttpNotFound();
             }
 
-            string expectedName = news.Title.ToSeoUrl();
+            string expectedName = model.NewsDetail.Title.ToSeoUrl();
             string actualName = (newsName ?? "").ToLower();
 
             if (expectedName != actualName)
             {
-                return RedirectToActionPermanent("Details", new { id = news.ID, newsName = expectedName });
+                return RedirectToActionPermanent("Details", new { id = model.NewsDetail.ID, newsName = expectedName });
             }
 
-            return View(news);
+            return View(model);
         }
 
         // GET: News/Create
@@ -115,7 +129,7 @@ namespace LeagueOfBalkan.Controllers
                 //db.SaveChanges();
                 //return RedirectToAction("Index");
 
-                News newsEdit = new News { ID = news.ID };
+                News newsEdit = new News (news.Date) { ID = news.ID };
                 db.News.Attach(newsEdit);
 
                 newsEdit.Title = news.Title;
@@ -127,7 +141,6 @@ namespace LeagueOfBalkan.Controllers
                 newsEdit.Image = news.Image;
                 newsEdit.ImagePath = news.ImagePath;
                 newsEdit.ThumbPath = news.ThumbPath;
-                newsEdit.Date = news.Date;
 
                 db.SaveChanges();
                 return RedirectToAction("Index");

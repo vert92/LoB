@@ -11,5 +11,6 @@ namespace LeagueOfBalkan.Models
         public LoBDb() : base("DefaultConnection") { }
 
         public DbSet<News> News { get; set; }
+        public DbSet<TwitchData> TwitchData { get; set; }
     }
 }

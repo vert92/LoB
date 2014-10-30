@@ -1,10 +1,17 @@
 ﻿@model LeagueOfBalkan.ViewModels.HomePageViewModel
 @using LeagueOfBalkan.Helpers
+@using System.Text.RegularExpressions
 
 @{
     ViewBag.Title = "League of Balkan";
 }
 
+
+@*@foreach (var item in @Model.StreamData.viewers)
+{
+    <div>@item</div>
+}*@
+    
 <div class="row" id="carouselrowhome">
     <div id="carousel-example-generic" class="carousel slide col-lg-8 lowpadding" data-ride="carousel">
         <!-- Indicators -->
@@ -15,7 +22,6 @@
         </ol>
 
         <div class="carousel-inner">
-
             @{
                 var i = 0;
                 foreach (var item in Model.CarouselNews)
@@ -38,12 +44,12 @@
     @foreach (var item in Model.MiniNews)
     {
         <div class="col-lg-4 col-md-12 tophomemininewscontainer lowpadding">
-            <a href="@Url.Action("Details", "News", new { id = item.ID, newsName = item.Title.ToSeoUrl() })">
-                <div class="homemininews tophomemininews">
-                    <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
-                    @Html.Raw(item.Text.Length > 300 ? item.Text.Substring(0, 300) : item.Text)
-                </div>
-            </a>
+            <div class="homemininews tophomemininews">
+                <a href="@Url.Action("Details", "News", new { id = item.ID, newsName = item.Title.ToSeoUrl() })">
+                    <p class="title">@Html.Raw(item.Title.Length > 37 ? item.Title.Substring(0, 37) + "..." : item.Title)</p>
+                </a>
+                <p>@WebUtility.HtmlDecode(Regex.Replace((item.Text.Length > 350 ? item.Text.Substring(0, 350) + "..." : item.Text), "<[^>]*(>|$)", string.Empty))</p>
+            </div>
         </div>
     }
 
@@ -54,13 +60,15 @@
     @foreach (var item in Model.MainNews)
     {
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 lowpadding">
-            <a href="@Url.Action("Details", "News", new { id = item.ID, newsName = item.Title.ToSeoUrl() })">
-                <div class="homemininews">
+            <div class="homemininews">
+                <a href="@Url.Action("Details", "News", new { id = item.ID, newsName = item.Title.ToSeoUrl() })">
                     <img src="@Url.Content(item.ThumbPath)" />
-                    <h2>@item.Title</h2>
-                    <p>@Html.Raw(item.Text.Length > 300 ? item.Text.Substring(0, 300) : item.Text)</p>
-                </div>
-            </a>
+                </a>
+                <a href="@Url.Action("Details", "News", new { id = item.ID, newsName = item.Title.ToSeoUrl() })">
+                    <p class="title">@Html.Raw(item.Title.Length > 37 ? item.Title.Substring(0, 37) + "..." : item.Title)</p>
+                </a>
+                <p>@WebUtility.HtmlDecode(Regex.Replace((item.Text.Length > 260 ? item.Text.Substring(0, 260) + "..." : item.Text), "<[^>]*(>|$)", string.Empty))</p>
+            </div>
         </div>
     }
 

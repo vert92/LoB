@@ -1,5 +1,7 @@
-﻿@model LeagueOfBalkan.Models.News
+﻿@model LeagueOfBalkan.ViewModels.NewsDetailsViewModel
+@using LeagueOfBalkan.Helpers
 @using System.Web
+
 @{
     ViewBag.Title = "Details";
 }
@@ -9,19 +11,29 @@
 </div>
 
 <div class="row newsdetailrow">
-    <div class="col-sm-9 col-md-9">
+    <div class="col-sm-9 col-md-9 lowpadding">
         <div class="newsdetail">
-            <h3>@Model.Title</h3>
+            <h3>@Model.NewsDetail.Title</h3>
             <hr />
-            <img src="@Url.Content(Model.ImagePath)" />
-            <div>
-                @Html.Raw(HttpUtility.HtmlDecode(@Model.Text))
+            <img src="@Url.Content(Model.NewsDetail.ImagePath)" />
+            <div class="text">
+                @Html.Raw(HttpUtility.HtmlDecode(@Model.NewsDetail.Text))
             </div>
-            @*<p class="date">@Model.Date</p>*@
-            <p class="date"><abbr class="timeago" title="@Model.Date"></abbr></p>
+            <p class="date"><i class="fa fa-clock-o"></i><abbr class="timeago" title="@Model.NewsDetail.Date"></abbr></p>
         </div>
     </div>
-    <div class="col-sm-3 col-md-3"></div>
+    <div class="col-sm-3 col-md-3 lowpadding">
+        <div class="newsdetail">
+            <h4>Recent News</h4>
+            <hr />
+            @foreach (var item in Model.RecentNews)
+            {
+                <a href="@Url.Action("Details", "News", new { id = item.ID, newsName = item.Title.ToSeoUrl() })">
+                    <p>@item.Title</p>
+                </a>
+            }
+        </div>
+    </div>
 </div>
 
 @Html.Partial("_StreamersPartial")
