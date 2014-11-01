@@ -29,7 +29,8 @@ namespace LeagueOfBalkan
                       "~/Content/site.css",
                       "~/Content/font-awesome-4.2.0/css/font-awesome.min.css",
                       "~/Content/HomePage.css",
-                      "~/Content/NewsPage.css"));
+                      "~/Content/NewsPage.css",
+                      "~/Content/StreamsPage.css"));
 
             bundles.Add(new StyleBundle("~/Content/login").Include(
                 "~/Content/bootstrap.css",

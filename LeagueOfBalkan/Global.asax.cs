@@ -1,4 +1,7 @@
-﻿using System;
+﻿using LeagueOfBalkan.Quartz;
+using Quartz;
+using Quartz.Impl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +19,7 @@ namespace LeagueOfBalkan
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            JobScheduler.Start();
         }
     }
 }

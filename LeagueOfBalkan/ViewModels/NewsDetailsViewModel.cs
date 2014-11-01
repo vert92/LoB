@@ -10,5 +10,6 @@ namespace LeagueOfBalkan.ViewModels
     {
         public News NewsDetail { get; set; }
         public IEnumerable<News> RecentNews { get; set; }
+        public IEnumerable<TwitchData> StreamData { get; set; }
     }
 }

@@ -1,43 +1,27 @@
 ﻿<div class="row streamerhomerow">
 
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 streamlink lowpadding">
-        <a href="#">
-            <div class="streamerhomeicon">
-                <img src="~/Content/Images/wickd_small.jpg" />
-                <p>Streamer name</p>
-                <p>Viewer count</p>
-            </div>
-        </a>
+    <div class="col-md-12 streamerhometitle">
+        <img src="~/Content/Images/twitchlogo.png" width="65" height="25"/>
     </div>
 
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 streamlink lowpadding">
-        <a href="#">
-            <div class="streamerhomeicon">
-                <img src="~/Content/Images/wickd_small.jpg" />
-                <p>Streamer name</p>
-                <p>Viewer count</p>
-            </div>
-        </a>
-    </div>
-
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 streamlink lowpadding">
-        <a href="#">
-            <div class="streamerhomeicon">
-                <img src="~/Content/Images/wickd_small.jpg" />
-                <p>Streamer name</p>
-                <p>Viewer count</p>
-            </div>
-        </a>
-    </div>
-
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 streamlink lowpadding">
-        <a href="#">
-            <div class="streamerhomeicon">
-                <img src="~/Content/Images/wickd_small.jpg" />
-                <p>Streamer name</p>
-                <p>Viewer count</p>
-            </div>
-        </a>
-    </div>
+    @foreach (var item in Model.StreamData)
+    {
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 streamlink lowpadding">
+            <a href="@item.url">
+                <div class="streamerhomeicon">
+                    @if (item.logo == null)
+                    { 
+                        <i class="fa fa-twitch fa-4x"></i>
+                    }
+                    else
+                    {
+                        <img src="@item.logo" width="60" height="60" />
+                    }
+                    <p>@item.display_name</p>
+                    <p data-toggle="tooltip" data-placement="top" title="Viewers">@item.viewers</p>
+                </div>
+            </a>
+        </div>
+    }
 
 </div>

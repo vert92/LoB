@@ -1,0 +1,60 @@
+﻿
+.streampagetitle {
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
+.individualstream {
+    max-height: 300px;
+    min-height: 300px;
+}
+
+    .individualstream img {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+
+.streamtitle {
+    text-wrap: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 19px;
+    margin-top: 5px;
+    color: white;
+    padding-right: 20px;
+}
+
+    .streamtitle a {
+        text-decoration: none;
+    }
+
+.streamtext {
+    text-wrap: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 19px;
+    color: white;
+    padding-right: 20px;
+    font-size: 13px;
+}
+
+.streamvideo iframe{
+    width: 100%;
+    height: 500px;
+}
+
+.streamchat iframe{
+    width: 100%;
+    height: 500px;
+}
+
+.streamheader{
+    padding-left: 0px;
+}
+
+.streamheader h2{
+    font-size: 18px;
+}

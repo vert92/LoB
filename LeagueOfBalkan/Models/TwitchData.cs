@@ -11,6 +11,7 @@ namespace LeagueOfBalkan.Models
         public int viewers { get; set; }
         public string medium { get; set; }
         public string display_name { get; set; }
+        public string logo { get; set; }
         public string status { get; set; }
         public string url { get; set; }
     }

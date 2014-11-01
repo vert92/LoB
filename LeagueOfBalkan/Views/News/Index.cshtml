@@ -23,8 +23,8 @@
                         </a>
                         <p>@WebUtility.HtmlDecode(Regex.Replace((item.Text.Length > 500 ? item.Text.Substring(0, 500) + "..." : item.Text), "<[^>]*(>|$)", string.Empty))</p>
                     </div>
-                    <p class="date"><i class="fa fa-clock-o"></i><abbr class="timeago" title="@item.Date"></abbr></p>
                 </div>
+                <p class="date"><i class="fa fa-clock-o"></i><abbr class="timeago" title="@item.Date"></abbr></p>
                 <hr />
             }
         </div>

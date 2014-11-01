@@ -21,6 +21,13 @@ namespace LeagueOfBalkan
             );
 
             routes.MapRoute(
+                "Streams",
+                "Stream/{id}/{streamName}",
+                new { controller = "Streams", action = "Details", streamName = UrlParameter.Optional },
+                new { id = @"\d+" }
+                );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

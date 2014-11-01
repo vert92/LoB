@@ -1,0 +1,19 @@
+﻿@model IEnumerable<LeagueOfBalkan.Models.TwitchData>
+@using LeagueOfBalkan.Helpers
+@{
+    ViewBag.Title = "Streams";
+}
+
+<div class="row streampagetitle">
+    <div class="newsheader col-sm-12 col-md-12"><h2>Streams</h2></div>
+</div>
+
+<div class="row">
+    @foreach (var item in Model) {
+    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 individualstream">
+        <a href="@Url.Action("Details", "Streams", new { id = item.ID, streamName = item.display_name.ToSeoUrl() })"><img src="@item.medium" /></a>
+        <div class="streamtitle"><a href="@Url.Action("Details", "Streams", new { id = item.ID, streamName = item.display_name.ToSeoUrl() })">@(item.status.Length > 70 ? item.status.Substring(0, 70) : item.status)</a></div>
+        <div class="streamtext">@item.viewers viewers on @item.display_name</div>
+    </div>
+    }
+</div>

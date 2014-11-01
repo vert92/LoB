@@ -1,0 +1,19 @@
+﻿@model LeagueOfBalkan.ViewModels.StreamPageViewModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="row streampagetitle">
+    <div class="newsheader streamheader col-sm-12 col-md-12"><h2>@(Model.Stream.status.Length > 100 ? Model.Stream.status.Substring(0, 100) + "..." : Model.Stream.status)</h2></div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-md-8 streamvideo lowpadding">
+        <iframe src="@Model.Stream.url/embed" frameborder="0" scrolling="no"></iframe>
+    </div>
+    <div class="col-lg-4 col-md-4 streamchat lowpadding">
+        <iframe src="@Model.Stream.url/chat?popout=" frameborder="0" scrolling="no"></iframe>
+    </div>
+</div>
+
+@Html.Partial("_StreamersPartial")

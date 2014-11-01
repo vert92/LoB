@@ -6,11 +6,9 @@ using System.Web;
 
 namespace LeagueOfBalkan.ViewModels
 {
-    public class HomePageViewModel
+    public class StreamPageViewModel
     {
-        public IEnumerable<News> CarouselNews { get; set; }
-        public IEnumerable<News> MainNews { get; set; }
-        public IEnumerable<News> MiniNews { get; set; }
+        public TwitchData Stream { get; set; }
         public IEnumerable<TwitchData> StreamData { get; set; }
     }
 }

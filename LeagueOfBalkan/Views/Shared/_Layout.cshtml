@@ -35,6 +35,19 @@
 
     <div class="container body-content homepagecontainer">
 
+        <div class="row">
+            <div class="logomenu col-lg-12">
+                <a href="@Url.Action("Index", "Home", null)"><img src="~/Content/Images/loblogo1.png" width="130" height="80" /></a>
+                <ul class="logonav">
+                    <li>@Html.ActionLink("Home", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "active" })</li>
+                    <li>@Html.ActionLink("News", "Index", "News", routeValues: null, htmlAttributes: new { @class = "active" })</li>
+                    <li>@Html.ActionLink("Tournaments", "Index", "News", routeValues: null, htmlAttributes: new { @class = "active" })</li>
+                    <li>@Html.ActionLink("Forum", "Index", "News", routeValues: null, htmlAttributes: new { @class = "active" })</li>
+                    <li>@Html.ActionLink("Streams", "Index", "Streams", routeValues: null, htmlAttributes: new { @class = "active" })</li>
+                </ul>
+            </div>
+        </div>
+
         @RenderBody()
 
         <hr />

@@ -21,15 +21,10 @@ namespace LeagueOfBalkan.Controllers
         // GET: News
         public ActionResult Index()
         {
-
-            TwitchData twitch = new TwitchData();
-
-
             return View(db.News.ToList());
         }
 
         // GET: News/Details/5
-        [Authorize]
         public ActionResult Details(int? id, string newsName)
         {
             if (id == null)
@@ -43,6 +38,10 @@ namespace LeagueOfBalkan.Controllers
                 NewsDetail = db.News.Find(id),
                 RecentNews = db.News.OrderByDescending(n => n.Date)
                             .Take(10)
+                            .ToList(),
+
+                StreamData = db.TwitchData.OrderByDescending(t => t.viewers)
+                            .Take(12)
                             .ToList()
             };
 

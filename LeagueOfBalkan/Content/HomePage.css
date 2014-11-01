@@ -7,8 +7,50 @@
     padding-right: 5px;
 }
 
-#carouselrowhome {
+.logomenu {
+    min-height: 80px;
+    background-color: #081436;
     margin-top: 20px;
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+}
+
+    .logomenu img {
+        float: left;
+    }
+
+.logonav {
+    padding-left: 0;
+    margin-left: 0;
+    color: #428BCA;
+    float: left;
+    width: 80%;
+    font-family: arial, helvetica, sans-serif;
+    margin-top: 28px;
+    margin-left: 50px;
+    font-size: 18px;
+}
+
+    .logonav li {
+        display: inline;
+    }
+
+        .logonav li a {
+            padding-left: 25px;
+            padding-right: 25px;
+            text-decoration: none;
+            color: #428BCA;
+            float: left;
+        }
+
+            .logonav li a:hover {
+                color: #fff;
+            }
+
+
+#carouselrowhome {
+    margin-top: 5px;
 }
 
 .carouselimage {
@@ -89,23 +131,49 @@
     text-decoration: none;
 }
 
+.streamerhomerow {
+    margin-top: 15px;
+    background-color: rgba(101,66,166, 0.4);
+    padding-top: 10px;
+}
+
+.streamerhometitle img{
+    opacity: 0.8;
+}
+
 .streamerhomeicon {
     border: 3px solid black;
     -webkit-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
-    border-radius: 10px;
     text-align: center;
     color: white;
     background-color: #081436;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
+
+    .streamerhomeicon:hover {
+        -webkit-box-shadow: inset 0px 0px 5px 2px rgba(0,0,0,0.75);
+        -moz-box-shadow: inset 0px 0px 5px 2px rgba(0,0,0,0.75);
+        box-shadow: inset 0px 0px 5px 2px rgba(0,0,0,0.75);
+    }
 
     .streamerhomeicon img {
         display: block;
         margin-left: auto;
         margin-right: auto;
-        border: 3px solid #ffe00d;
-        border-radius: 50px;
+        border: 3px solid black;
+        margin-top: 10px;
+    }
+
+    .streamerhomeicon i {
+        width: 60px;
+        height: 60px;
+        border: 3px solid black;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
         margin-top: 10px;
     }
 
@@ -116,9 +184,5 @@
     }
 
 .newshomerow {
-    margin-top: 15px;
-}
-
-.streamerhomerow {
     margin-top: 15px;
 }
