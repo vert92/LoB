@@ -10,7 +10,7 @@ namespace LeagueOfBalkan.Quartz
 {
     public class Twitch : IJob
     {
-        private LoBDb db = new LoBDb();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public void Execute(IJobExecutionContext context)
         {
@@ -44,12 +44,27 @@ namespace LeagueOfBalkan.Quartz
                 medium.Add((string)item.preview.medium);
                 display_name.Add((string)item.channel.display_name);
                 logo.Add((string)item.channel.logo);
-                status.Add((string)item.channel.status);
-                url.Add((string)item.channel.url);
+                if ((string)item.channel.status == null)
+                {
+                    status.Add((string)item.channel.display_name);
+                }
+                else
+                {
+                    status.Add((string)item.channel.status);
+                }
+
+                if ((string)item.channel.url == null)
+                {
+                    url.Add("www.twitch.tv");
+                }
+                else
+                {
+                    url.Add((string)item.channel.url);
+                }
             }
 
             var i = 0;
-            var x = 406;
+            var x = 80;
             foreach (dynamic item in results.streams)
             {
                 var tw = db.TwitchData.Single(t => t.ID == x);
@@ -90,6 +105,7 @@ namespace LeagueOfBalkan.Quartz
             var viewers = new List<int>();
             var medium = new List<string>();
             var display_name = new List<string>();
+            var logo = new List<string>();
             var status = new List<string>();
             var url = new List<string>();
 
@@ -98,6 +114,7 @@ namespace LeagueOfBalkan.Quartz
                 viewers.Add((int)item.viewers);
                 medium.Add((string)item.preview.medium);
                 display_name.Add((string)item.channel.display_name);
+                logo.Add((string)item.channel.logo);
                 status.Add((string)item.channel.status);
                 url.Add((string)item.channel.url);
             }
@@ -111,6 +128,7 @@ namespace LeagueOfBalkan.Quartz
                     viewers = viewers[i],
                     medium = medium[i],
                     display_name = display_name[i],
+                    logo = logo[i],
                     status = status[i],
                     url = url[i]
                 };

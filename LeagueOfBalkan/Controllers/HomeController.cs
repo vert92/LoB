@@ -13,7 +13,7 @@ namespace LeagueOfBalkan.Controllers
 {
     public class HomeController : Controller
     {
-        private LoBDb db = new LoBDb();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ActionResult Index()
         {

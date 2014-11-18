@@ -36,18 +36,17 @@ namespace LeagueOfBalkan.Controllers
         }
 
         //
-        // GET: /Manage/Index
+        // GET: /Account/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
-
+            message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+            : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+            : message == ManageMessageId.SetTwoFactorSuccess ? "Your two factor provider has been set."
+            : message == ManageMessageId.Error ? "An error has occurred."
+            : message == ManageMessageId.AddPhoneSuccess ? "The phone number was added."
+            : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+            : "";
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -297,7 +296,6 @@ namespace LeagueOfBalkan.Controllers
             // Request a redirect to the external login provider to link a login for the current user
             return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
-
         //
         // GET: /Manage/LinkLoginCallback
         public async Task<ActionResult> LinkLoginCallback()

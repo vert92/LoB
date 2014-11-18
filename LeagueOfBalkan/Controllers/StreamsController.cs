@@ -12,7 +12,7 @@ namespace LeagueOfBalkan.Controllers
 {
     public class StreamsController : Controller
     {
-        private LoBDb db = new LoBDb();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ActionResult Index()
         {

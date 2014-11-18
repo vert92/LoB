@@ -1,16 +1,16 @@
 ﻿<div class="row streamerhomerow">
 
     <div class="col-md-12 streamerhometitle">
-        <img src="~/Content/Images/twitchlogo.png" width="65" height="25"/>
+        <img src="~/Content/Images/twitchlogo.png" width="65" height="25" />
     </div>
 
     @foreach (var item in Model.StreamData)
     {
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 streamlink lowpadding">
-            <a href="@item.url">
+            <a href="@Url.Action("Details", "Streams", new { id = item.ID, streamName = item.display_name })">
                 <div class="streamerhomeicon">
                     @if (item.logo == null)
-                    { 
+                    {
                         <i class="fa fa-twitch fa-4x"></i>
                     }
                     else

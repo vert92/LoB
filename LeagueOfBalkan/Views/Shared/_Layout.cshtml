@@ -26,7 +26,10 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "active" })</li>
                     <li>@Html.ActionLink("News", "Index", "News", routeValues: null, htmlAttributes: new { @class = "active" })</li>
-                    <li><a href="#">Messages</a></li>
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Admin Panel", "Index", "UsersAdmin", routeValues: null, htmlAttributes: new { @class = "active" })</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -42,7 +45,7 @@
                     <li>@Html.ActionLink("Home", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "active" })</li>
                     <li>@Html.ActionLink("News", "Index", "News", routeValues: null, htmlAttributes: new { @class = "active" })</li>
                     <li>@Html.ActionLink("Tournaments", "Index", "News", routeValues: null, htmlAttributes: new { @class = "active" })</li>
-                    <li>@Html.ActionLink("Forum", "Index", "News", routeValues: null, htmlAttributes: new { @class = "active" })</li>
+                    <li>@Html.ActionLink("Forum", "Index", "Forum", routeValues: null, htmlAttributes: new { @class = "active" })</li>
                     <li>@Html.ActionLink("Streams", "Index", "Streams", routeValues: null, htmlAttributes: new { @class = "active" })</li>
                 </ul>
             </div>

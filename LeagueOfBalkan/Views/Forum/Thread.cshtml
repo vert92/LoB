@@ -1,0 +1,16 @@
+﻿@model IEnumerable<LeagueOfBalkan.Models.Post>
+
+@{
+    ViewBag.Title = "Thread";
+}
+
+@foreach (var item in Model)
+{
+    <p>@item.ID</p>
+    <p>@item.Title</p>
+    <p>@item.Text</p>
+    <p>@item.ThreadID</p>
+    <p>@item.AuthorID</p>
+    <p>@item.DateCreated</p>
+    <p>@item.DateEdited</p>
+}

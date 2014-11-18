@@ -1,0 +1,12 @@
+﻿@model IEnumerable<LeagueOfBalkan.Models.Discussion>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@foreach (var item in Model)
+{
+    <a href="@Url.Action("Discussion", "Forum", new {id = item.ID})">@item.Title</a>
+    <p>@item.Description</p>
+}
+
